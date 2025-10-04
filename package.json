@@ -1,0 +1,27 @@
+{
+  "name": "affordable-housing-storymap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oindriza/affordable-housing-storymap.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Oindriza/affordable-housing-storymap/issues"
+  },
+  "homepage": "https://github.com/Oindriza/affordable-housing-storymap#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.37.0",
+    "eslint": "^9.37.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.4.0",
+    "stylelint": "^16.25.0"
+  }
+}

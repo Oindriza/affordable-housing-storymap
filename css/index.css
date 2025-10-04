@@ -1,0 +1,232 @@
+/* --- Basic page layout --- */
+  :root{
+  --hero-min-h: 48vh;
+  --hero-max-w: 1100px;
+  --pad: clamp(16px, 3vw, 32px);
+  --yellow: #ffce09;                 /* primary accent */
+  --ink: #111827;                    /* neutral-900 */
+  --paper: #ffffff;
+  --shadow: 0 8px 24px rgba(0,0,0,.18);
+}
+
+*{ box-sizing: border-box; }
+
+body{
+  margin: 0;
+  height: 100vh;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  color: var(--ink);
+  border-width: 0;
+}
+
+/* --- HERO header --- */
+.hero{
+  position: relative;
+  min-height: 100svh; /* small-viewport height: avoids mobile URL bar issues */
+  display: grid;
+  align-items: center;
+  padding: calc(var(--pad) * 1.25) var(--pad);
+  text-align: center;
+  
+
+  background-image:
+    linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.55)),
+    url("../images/whitmanpark-protest-housing-umbrellas.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
+}
+
+.hero__chevron{
+  position:absolute; left:50%; bottom:14px; transform:translateX(-50%);
+  text-decoration:none; font-size:28px; color:#fff; opacity:.85;
+}
+html{ scroll-behavior:smooth; } /* smooth scroll */
+
+.hero{ background-position: 50% 35%; }  /* tweak to taste */
+
+/* Content width + spacing inside the hero */
+.hero__content{
+  width: 100%;
+  max-width: var(--hero-max-w);
+  margin: 0 auto;
+}
+
+/* Title scales nicely across screen sizes */
+.hero__title{
+  margin: 0 0 .25em 0;
+  font-weight: 10;
+  letter-spacing: .2px;
+  line-height: 5;
+  /* keep on one line across devices */
+  white-space: nowrap;
+  overflow: hidden;                 /* prevent layout jank if extremely narrow */
+  text-overflow: ellipsis;
+  /* scale down more aggressively on small screens */
+  font-size: clamp(10px, 3.4vw); /* i dont understand this font size clamps */
+  color: var(--yellow);
+  text-shadow: 0 2px 2px rgba(0,0,0,.45);
+  opacity: 1;
+}
+
+/* Subtitle and byline */
+.hero__subtitle{
+  margin: 0 0 .5em 0;
+  font-size: clamp(16px, 2.4vw, 22px);
+  opacity: 1;
+  font-weight: 10;
+}
+
+.hero__byline{
+  margin: 0;
+  font-size: clamp(14px, 1.8vw, 18px);
+  opacity: 1;
+  font-weight: 10;
+}
+
+
+
+body {
+  margin: 0;
+  border-width: 0;
+  box-sizing: border-box;
+  height: 100vh;
+
+  font-family: 'Open Sans', sans-serif;
+}
+
+.map-container {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 0;
+}
+
+.map {
+  height: 100%;
+}
+
+.slide-section {
+  position: relative;
+  margin-top: -30vh;
+  z-index: 100;
+  pointer-events: none;
+  border-bottom: 1px solid rgb(0 0 0 / 10%);
+}
+
+.slide {
+  margin-top: 90vh;
+  margin-bottom: 90vh;
+  margin-left: auto;
+  margin-right: 2rem;
+  padding: 1rem;
+  box-shadow: -0.5rem 0 1rem rgba(0 0 0 / 50%);
+  border: 1px solid gray;
+  border-radius: 0.5rem;
+  pointer-events: initial;
+
+  width: 25rem;
+
+  background-color: white;
+  color: black;
+}
+
+.slide:first-child {
+  margin-top: 0;
+}
+
+.slide:last-child {
+  margin-bottom: 40vh;
+}
+
+.slide-controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  column-gap: 0.5rem;
+
+  width: 100%;
+}
+
+.slide-nav-button {
+  transition: all 0.1s;
+
+  padding: 0;
+  margin: 1rem;
+  width: 4rem;
+  height: 3rem;
+  border: 1px solid #888;
+  border-radius: 0.25rem;
+
+  background-color: #eee;
+  font-size: 1.5 em;
+}
+
+.slide-nav-button:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+.slide-nav-select {
+  min-width: 0;
+}
+
+/* Keep any media inside the slide card */
+.slide { 
+  overflow: hidden;                 /* clip spillover just in case */
+}
+
+/* Simple one-liner image style */
+.slide-image{
+  display:block;
+  width:100%;                       /* never exceed card width */
+  max-width:100%;
+  height:auto;                      /* keep aspect ratio */
+  max-height:260px;                 /* reduce how tall it can get */
+  object-fit:cover;                 /* crop gracefully if needed */
+  border-radius:8px;
+  box-shadow:0 4px 12px rgba(0,0,0,.12);
+  margin:.75rem 0 0 0;
+}
+
+/* Optional: tighter on small screens */
+@media (max-width: 640px){
+  .slide-image{ max-height:200px; }
+}
+
+/* === SLIDE SIZE + TYPE OVERRIDES (fit card fully on screen) === */
+
+/* make cards narrower + a bit tighter */
+.slide{
+  width: 22rem;          /* was 25rem */
+  padding: .85rem;       /* was 1rem  */
+  font-size: .95rem;     /* base size for body text */
+  line-height: 1.45;     /* slightly tighter */
+  margin-top: 70vh;      /* was 90vh */
+  margin-bottom: 70vh;   /* was 90vh */
+}
+
+/* headings smaller */
+.slide h2{
+  font-size: 1.25rem;    /* ~20px */
+  line-height: 1.25;
+  margin: 0 0 .5rem 0;
+}
+
+/* paragraphs a touch tighter */
+.slide p{
+  margin: .5rem 0;
+  font-size: .95rem;
+}
+
+/* images shorter so they don't push content off-screen */
+.slide-image{ max-height: 200px; }
+
+/* on shorter/narrow screens, shrink a bit more */
+@media (max-width: 900px), (max-height: 750px){
+  .slide{ width: 20rem; font-size: .9rem; }
+  .slide h2{ font-size: 1.15rem; }
+  .slide-image{ max-height: 180px; }
+}
