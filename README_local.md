@@ -11,5 +11,17 @@ This project visualizes the evolution of affordable and public housing in Philad
 - Open Data Philly: Affordable Housing Developments
 - U.S. Department of Housing and Urban Development (HUD)
 
+## Accessibility and Performance
+
+- Verified accessibility using Chrome Lighthouse (Score: **100/100**)
+- Addressed common accessibility issues:
+  - Added descriptive alt text to all images
+  - Ensured sufficient color contrast
+  - Verified keyboard navigation works
+- Performance score: 75/100 — can be improved by:
+  - Enabling cache lifetimes for static files
+  - Deferring JavaScript loading
+  - Compressing images (future optimization)
+
 ## Author
 Oindriza Reza (Fall 2025, UPenn Weitzman MUSA)
