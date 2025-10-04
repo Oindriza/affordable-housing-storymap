@@ -5,7 +5,7 @@ export default [
       ecmaVersion: "latest",
       sourceType: "module",
       globals: {
-        L: "readonly", // ✅ allow Leaflet global
+        L: "readonly", // allow Leaflet global
       },
     },
     rules: {
