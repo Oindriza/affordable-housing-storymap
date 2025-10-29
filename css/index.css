@@ -12,6 +12,7 @@
 *{ box-sizing: border-box; }
 
 body{
+  overflow-x: hidden; 
   margin: 0;
   height: 100vh;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
@@ -24,6 +25,8 @@ body{
 .hero{
   position: relative;
   min-height: 100svh; /* small-viewport height: avoids mobile URL bar issues */
+  width: 100vw;
+  overflow: hidden;
   display: grid;
   align-items: center;
   padding: calc(var(--pad) * 1.25) var(--pad);
@@ -47,6 +50,28 @@ html{ scroll-behavior:smooth; } /* smooth scroll */
 
 .hero{ background-position: 50% 35%; }  /* tweak to taste */
 
+.hero__caption {
+  position: absolute;
+  bottom: 10px;             /* distance from bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+
+  font-size: clamp(12px, 1.5vw, 16px);
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+
+  background: rgba(0, 0, 0, 0.4);  /* subtle dark overlay for readability */
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+
+  width: fit-content;
+  max-width: 90%;              /* prevent overflow on narrow screens */
+}
+
+
+
+
 /* Content width + spacing inside the hero */
 .hero__content{
   width: 100%;
@@ -59,13 +84,11 @@ html{ scroll-behavior:smooth; } /* smooth scroll */
   margin: 0 0 .25em 0;
   font-weight: 10;
   letter-spacing: .2px;
-  line-height: 5;
-  /* keep on one line across devices */
-  white-space: nowrap;
-  overflow: hidden;                 /* prevent layout jank if extremely narrow */
-  text-overflow: ellipsis;
-  /* scale down more aggressively on small screens */
-  font-size: clamp(10px, 3.4vw); /* i dont understand this font size clamps */
+  line-height: 1.2;
+  white-space: normal; /* multiline across devices */
+  overflow: visible;                 /* prevent layout jank if extremely narrow */
+  text-overflow: unset;
+  font-size: clamp(18px, 5vw, 40px); 
   color: var(--yellow);
   text-shadow: 0 2px 2px rgba(0,0,0,.45);
   opacity: 1;
@@ -145,7 +168,7 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  column-gap: 0.5rem;
+  column-gap: 1rem;
 
   width: 100%;
 }
@@ -196,16 +219,34 @@ body {
   .slide-image{ max-height:200px; }
 }
 
-/* === SLIDE SIZE + TYPE OVERRIDES (fit card fully on screen) === */
+/* --- SLIDE SECTION (container for all slides) --- */
+.slide-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;      /* stack slides vertically */
+  align-items: center;         /* center horizontally */
+  justify-content: center;
+  padding: var(--pad);
+  gap: 5vh;                    /* space between slides */
+  z-index: 100;
+  pointer-events: none;
+}
 
-/* make cards narrower + a bit tighter */
-.slide{
-  width: 22rem;          /* was 25rem */
-  padding: .85rem;       /* was 1rem  */
-  font-size: .95rem;     /* base size for body text */
-  line-height: 1.45;     /* slightly tighter */
-  margin-top: 70vh;      /* was 90vh */
-  margin-bottom: 70vh;   /* was 90vh */
+/* --- INDIVIDUAL SLIDE CARDS --- */
+.slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: clamp(500px, 60vw, 500px);  /* auto-resize between small and large screens */
+  max-width: 95%;
+  padding: 1rem 1.25rem;
+  background-color: white;
+  color: black;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0,0,0,0.1);
+  pointer-events: all;
 }
 
 /* headings smaller */
@@ -229,4 +270,12 @@ body {
   .slide{ width: 20rem; font-size: .9rem; }
   .slide h2{ font-size: 1.15rem; }
   .slide-image{ max-height: 180px; }
+}
+
+.leaflet-bottom.leaflet-left {
+  z-index: 9999;
+}
+
+.leaflet-control-container .legend {
+  pointer-events: none;
 }

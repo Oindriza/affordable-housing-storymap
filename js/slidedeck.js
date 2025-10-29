@@ -6,7 +6,7 @@ class SlideDeck {
     this.slides = slides;
     this.map = map;
 
-    this.dataLayer = L.layerGroup().addTo(map);
+    this.dataLayer = L.layerGroup();
     this.pointData = null;
     this.binLayers = [];   // [{label, start, end, layer}]
     this.currentBin = -1;
@@ -73,25 +73,39 @@ class SlideDeck {
 
       this.binLayers.push({ ...bin, layer });
     });
-
-    // If you want to inspect counts per bin:
-    // console.table(this.binLayers.map(b => ({ bin: b.label, projects: b.layer.getLayers().length })));
   }
 
-  /** Show layers cumulatively up to binIndex (0-based). */
   updateDataLayerByBin(binIndex) {
-    if (!this.binLayers.length) return;
-    const i = Math.max(0, Math.min(binIndex, this.binLayers.length - 1));
-    if (i === this.currentBin) return;
+  // If there’s no data, exit
+  if (!this.binLayers.length) return;
 
-    // CUMULATIVE: show 0..i, remove layers beyond i
-    this.dataLayer.clearLayers();
-    for (let k = 0; k <= i; k++) {
-      this.dataLayer.addLayer(this.binLayers[k].layer);
+  //the intro slide (no dots)
+  if (binIndex < 0) {
+    this.dataLayer.clearLayers(); // remove all points
+    if (this.map.hasLayer(this.dataLayer)) {
+      this.map.removeLayer(this.dataLayer); // fully hide from map
     }
-
-    this.currentBin = i;
+    this.currentBin = -1;
+    return;
   }
+
+  // Cap the index between 0 and last bin
+  const i = Math.max(0, Math.min(binIndex, this.binLayers.length - 1));
+  if (i === this.currentBin) return;
+
+  // Add the group if not already on map
+  if (!this.map.hasLayer(this.dataLayer)) {
+    this.dataLayer.addTo(this.map);
+  }
+
+  // CUMULATIVE display: show 0..i
+  this.dataLayer.clearLayers();
+  for (let k = 0; k <= i; k++) {
+    this.dataLayer.addLayer(this.binLayers[k].layer);
+  }
+
+  this.currentBin = i;
+}
 }
 
 export { SlideDeck };

@@ -1,7 +1,7 @@
 import { SlideDeck } from "./slidedeck.js";
 
 /*MAP*/
-const map = L.map("map", { zoomSnap: 0, scrollWheelZoom: false }).setView([39.95, -75.16], 12);
+const map = L.map("map", { zoomSnap: 0, scrollWheelZoom: false }).setView([39.99031838231997, -75.09241104125978], 12);
 
 L.tileLayer(
   "https://api.mapbox.com/styles/v1/nodi/cmg713hpu003901s2acg2ddfk/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoibm9kaSIsImEiOiJjbWZlYzdldXMwNWhxMnNvYzNvOWM1c3l1In0.M5eQdMz9QGmElmCb4_mvGg",
@@ -104,7 +104,7 @@ async function init() {
   // SCROLL HANDLER: bins first; after 9th, enable focus zooms
   const onScroll = () => {
     // --- BINS (slides 2–9) ---
-    let binIdx = 0;
+    let binIdx = -1;
     binSlides.forEach((slide, i) => {
       const r = slide.getBoundingClientRect();
       if (r.top < window.innerHeight * 0.5) binIdx = i;
@@ -149,7 +149,65 @@ async function init() {
   window.addEventListener("scroll", onScroll, { passive: true });
 
   // Initial render: show the first bin view; do NOT zoom
-  deck.updateDataLayerByBin(0);
+  deck.updateDataLayerByBin(-1); // start with no data;
 }
 
 init().catch(console.error);
+
+
+
+// ========== ADD LEGEND CONTROL ==========
+const legend = L.control({ position: "bottomleft" });
+
+legend.onAdd = function (map) {
+  const div = L.DomUtil.create("div", "info legend");
+
+  div.innerHTML = `
+    <div style="background-color: rgba(30, 30, 30, 0.85); color: white; padding: 12px 14px; border-radius: 8px; width: 170px; font-family: 'Inter', 'Arial', sans-serif; font-size: 12px; line-height: 1.4; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
+      
+      <!-- NORTH ARROW -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <strong>Legend</strong>
+        <div style="display: flex; flex-direction: column; align-items: center; font-size: 10px; line-height: 1;">
+          <span style="font-weight: bold;">N</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+            <polygon points="12,2 4,22 12,18 20,22" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- DOT SCALE -->
+      <div style="margin: 6px 0;">
+        <svg width="100" height="30">
+          <circle cx="15" cy="15" r="3" fill="#FFD700" fill-opacity="0.9"></circle>
+          <circle cx="40" cy="15" r="6" fill="#FFD700" fill-opacity="0.9"></circle>
+          <circle cx="70" cy="15" r="9" fill="#FFD700" fill-opacity="0.9"></circle>
+        </svg>
+        <br>
+        <span style="font-size: 11px;">Dot size increases with Number of units</span>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid #666; margin: 6px 0;">
+
+      <!-- INSTRUCTION -->
+      <div style="font-size: 11px;">
+        Click on a dot to learn more<br>
+        about each housing project.
+      </div>
+    </div>
+  `;
+  return div;
+};
+
+legend.addTo(map);
+
+
+// === Always scroll to the top (first slide) on refresh ===
+window.addEventListener("beforeunload", () => {
+  window.scrollTo(0, 0);
+});
+
+// Also make sure when the page loads, it starts at the top
+window.addEventListener("load", () => {
+  window.scrollTo(0, 0);
+});
